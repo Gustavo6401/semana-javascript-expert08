@@ -22,9 +22,14 @@ worker.onmessage = ({ data }) => {
 worker.postMessage("Enviado do Pai!!!")
 
 view.configureOnFileChange(file => {
+    const canvas = view.getCanvas();
     worker.postMessage({
-        file
-    })
+        file,
+        canvas
+    }, [
+        // Precisamos disso para transferir o canvas para o Worker.
+        canvas
+    ])
 
     clock.start((time) => {
         took = time;

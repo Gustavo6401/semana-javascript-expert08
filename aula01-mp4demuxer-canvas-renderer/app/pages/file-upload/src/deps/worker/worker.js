@@ -1,5 +1,6 @@
 import VideoProcessor from "./videoProcessor.js";
 import MP4Demuxer from "./mp4Demuxer.js";
+import CanvasRenderer from "./canvasRenderer.js";
 
 const qvgaConstraints = {
     width: 320,
@@ -38,8 +39,11 @@ const videoProcessor = new VideoProcessor({
 
 onmessage = async ({data}) => {
     debugger
+    const renderFrame = new CanvasRenderer.getRenderer(data.canvas)
+
     await videoProcessor.start({ 
         file: data.file,
+        renderFrame: renderFrame,
         encoderConfig,
         sendMessage(message) {
             self.postMessage(message)
